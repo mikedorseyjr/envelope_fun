@@ -22,5 +22,6 @@ if ('development' == app.get('env')) {
 
 // creating a url to map to this controller
 app.get('/envelope/show_envelopes',envelope.show_envelopes);
+app.post('/envelope/save_envelopes',envelope.save_envelopes);
 
 server.listen(3000);

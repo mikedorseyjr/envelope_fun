@@ -10,7 +10,7 @@
 	"lodash": "*",
 	"underscore.string" : "*",
 	"async" : "*",
-	"mongodb" : "*",
+	"mongojs" : "*",
 	"jsmockito" : "*"
   }
 }
