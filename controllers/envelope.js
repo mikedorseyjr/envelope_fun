@@ -1,6 +1,7 @@
 var _ = require('lodash');
 var util = require('util');
 var EnvelopeData = require('../lib/envelope-provider-mongodb').EnvelopeProvider;
+var EnvelopeFunctions = require('../lib/envelope_functions').EnvelopeFunctions;
 
 // ------------------------
 // Service exposed functions
@@ -35,6 +36,36 @@ module.exports.save_envelopes = function(req, res, next) {
   	}
   });
 };
+
+module.exports.send = function(req, res, next) {
+	console.log('API REQUEST: sent - params', req.query);
+	var id = req.query.id;
+
+	var functions = new EnvelopeFunctions();
+	functions.sent( id, function(err, docs, lastErrorObject){
+		if ( err) {
+			console.error("Error when marking envelope sent "+err.Message);
+			res.json({mesage: err.Message});
+		}else {
+			res.json({message: "Envelope with id "+id+" successully marked as sent"});
+		}
+	});
+}
+
+module.exports.receive = function(req, res, next) {
+	console.log('API REQUEST: receive - params', req.query);
+	var id = req.query.id;
+
+	var functions = new EnvelopeFunctions();
+	functions.receive( id, function(err, docs, lastErrorObject){
+		if ( err) {
+			console.error("Error when marking envelope received "+err.Message);
+			res.json({mesage: err.Message});
+		}else {
+			res.json({message: "Envelope with id "+id+" successully marked as received"});
+		}
+	});
+}
 
 
 
