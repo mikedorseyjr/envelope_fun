@@ -1,72 +1,70 @@
 // This is a test class of the mongodb based envelope provider
 var EnvelopeData = require('../lib/envelope-provider-mongodb').EnvelopeProvider;
-var JsMockito = require('jsmockito').JsMockito;
-JsMockito.Integration.Nodeunit();
-var Db = require('mongodb').Db;
+/*var Db = require('mongodb').Db;
 var Server = require('mongodb').Server;
 var Collection = require('mongodb').Collection;
-var Cursor = require('mongodb').Cursor;
+var Cursor = require('mongodb').Cursor;*/
 
-var mockCollection = {};
-var mockCursor = {};
+var dummyDbName = "test_envelope_development";
+var dummyHost = "localhost";
+var dummyDbConnectString = dummyHost + "/" + dummyDbName;
+var dummyPort = "27017";
+var dummyCollectionName = "envelopes";
+
+var provider;
 
 module.exports = {
 	setUp : function(callback)
 	{
-		var envelopes = [{ id : 3, description: 'test letter 1'}, 
-						 { id : 2, description: 'test letter 2'}];
-		this.provider = EnvelopeData.dummyEnvelopeProvider();
-		/**
-		 * Why do I have to create real objects in order to mock them the 
-		 * right way?!?!
-		 */
-		dummyDb = new Db('dummyDb', new Server('dummyHost', 'dummyPort'));
-		dummyCollection = dummyDb.collection('dummyCollection');
-		dummyCursor = dummyCollection.find({});
-		mockCollection = mock(dummyCollection);
-		mockCursor = mock(dummyCursor);
-		this.provider.envelope_collection = mockCollection;
-
+		provider = EnvelopeData.newEnvelopeProvider(dummyDbConnectString, dummyCollectionName);
 		callback();
 	},
-	tearDown : function(callback)
+	tearDown : function( callback)
 	{
-		//this.provider.clear();
+		provider.close();
 		callback();
 	},
-	findAll :function( test )
+	testFindAll :function( test )
 	{
 		// Arrange
-		var envelopes = [{ id : 3, description: 'test letter 1'}, 
+		/*var envelopes = [{ id : 3, description: 'test letter 1'}, 
 				 { id : 2, description: 'test letter 2'}];
 
 		when(this.provider.envelope_collection).find().thenReturn(mockCursor);
-		when(mockCursor).toArray().thenReturn(envelopes);
+		when(mockCursor).toArray().thenReturn(envelopes);*/
 
-		// Act
-		var actualEnvelopes = this.provider.findAll();
-
-		// Assert
-		test.equals(actualEnvelopes.length, 2);
-		test.done();
+		// Act, Assert
+		test.expect(1);
+		records_found = false;
+		records_found = provider.findAll(function(err,docs){
+			test.equals(docs.length, 2);
+			test.done();
+		});
 	},
-	findById : function(test)
+	testFindById : function(test)
 	{
 		// Arrange
-		var testId = "000000000000000000000001";
+		/*var testId = "000000000000000000000001";
 		var envelopes_to_return = [{ id : testId, description: 'test letter 1'}];
 
 		when(this.provider.envelope_collection).findOne().thenReturn(mockCursor);
-		when(mockCursor).toArray().thenReturn(envelopes_to_return);
+		when(mockCursor).toArray().thenReturn(envelopes_to_return);*/
 
-		// Act
-		var actualEnvelopes = this.provider.findById(testId);
+		// Act, Assert
+		test.expect(3);
+		provider.findById("532646752b5e1572edae2b1d",function(err,docs){
+			test.equals(docs._id, "532646752b5e1572edae2b1d");
+			test.equals(docs.id, 3);
+			test.equals(docs.description, "test letter 1");
+			test.done();
+		});
+		/*var actualEnvelopes = this.provider.findById(testId);
 
 		// Assert
 		test.equals(actualEnvelopes.length, 1);
-		test.equals(actualEnvelopes[0].id, testId);
-		test.done();		
-	},
+		test.equals(actualEnvelopes[0].id, testId);*/
+	}
+	/*,
 	save : function(test)
 	{
 		//Arrange
@@ -78,5 +76,5 @@ module.exports = {
 		// Assert
 		verify(mockCollection).insert(); // Is there a matcher for an array the checks if items have been modified
 		test.done();
-	}
+	}*/
 };
