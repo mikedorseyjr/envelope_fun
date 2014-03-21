@@ -1,9 +1,12 @@
 // This is a test class of the mongodb based envelope provider
 var EnvelopeData = require('../lib/envelope-provider-mongodb').EnvelopeProvider;
-/*var Db = require('mongodb').Db;
-var Server = require('mongodb').Server;
-var Collection = require('mongodb').Collection;
-var Cursor = require('mongodb').Cursor;*/
+/* These are the worst unit tests I've ever written. Why?
+ * Because they aren't real unit tests but actually reference and interact with
+ * mongodb directly. I didn't want to but man, is mocking it in javascript way 
+ * more painful than it should be. So use a test database, change an identifier 
+ * around and run nodeunit on the file.
+ * Idea inspired from: http://skipoleschris.blogspot.com/2012/07/unit-testing-with-mongodb.html
+ */
 
 var dummyDbName = "test_envelope_development";
 var dummyHost = "localhost";

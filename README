@@ -1,7 +1,7 @@
 Some fun envelope stuff in javascript
 
 1) Install mongo
-2) Create a db of envelope_development in localhost.
+2) Create a db of envelope_development and test_envelope_development in localhost.
 3) You can change the configuration a bit to your settings in lib/envelope-provider-mongodb.js
 4) Run node on app.js
 5) Play with the existing services.
