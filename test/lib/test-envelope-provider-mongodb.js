@@ -1,5 +1,5 @@
 // This is a test class of the mongodb based envelope provider
-var EnvelopeData = require('../lib/envelope-provider-mongodb').EnvelopeProvider;
+var EnvelopeData = require('../../lib/envelope-provider-mongodb').EnvelopeProvider;
 /* These are the worst unit tests I've ever written. Why?
  * Because they aren't real unit tests but actually reference and interact with
  * mongodb directly. I didn't want to but man, is mocking it in javascript way 

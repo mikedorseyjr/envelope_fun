@@ -1,5 +1,5 @@
 // This is a test class of the memory based envelope provider
-var EnvelopeData = require('../lib/envelope-provider-memory').EnvelopeProvider;
+var EnvelopeData = require('../../lib/envelope-provider-memory').EnvelopeProvider;
 
 module.exports = {
 	setUp : function(callback)
