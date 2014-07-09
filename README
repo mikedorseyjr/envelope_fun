@@ -1,7 +1,39 @@
 Some fun envelope stuff in javascript
 
 1) Install mongo
-2) Create a db of envelope_development and test_envelope_development in localhost.
-3) You can change the configuration a bit to your settings in lib/envelope-provider-mongodb.js
-4) Run node on app.js
-5) Play with the existing services.
+2) Create a db of envelope_development and test_envelope_development in localhost. You can also import the envelope_collection.json that is part of this archive.
+3) In enveloper-provider-mongodb.js, you can change the collection name from envelopes to your preferred collection. 
+4) make some test data in test_envelope_development so that you can run the unit test via nodeunit.
+5) You can change the configuration a bit to your settings in lib/envelope-provider-mongodb.js
+6) Run node on app.js
+7) Play with the existing services.
+
+Documentation:
+
+A put on /envelope/save_envelopes with the following request:
+
+{"envelopes":[{ "description": "Not a normal test letter 1"}, 
+			 { "description": "a better test letter 2"},
+              { "description" : "a brand new letter"} ]}
+
+Should save 3 letters with the descriptions and brand new ids. Your document here can look like anything.
+
+A get on /envelope/show_envelopes should return you all the items within a collection.
+
+A post on /envelope/send_envelope and /envelope/receive_envelope with a body of:
+
+{"id" : "52ba497c487b5da519000002"} should update the send and receive status of those objects in collection with send and receive info. The details of this can be found in lib/envelope_functions.js
+
+These can easily be updated to take in any number of arguments ... or at least expose it in one of the other controllers.
+
+A delete on /envelope/remove_envelope with a body of:
+
+{"id" : "52ba497c487b5da519000002"} 
+
+should remove the corresponding record.
+
+Note: 
+
+You will probably need to run npm install in order to get everythhig you need installed. This packages uses mongojs and the default node mongodb driver. No ORM is required so far.
+
+

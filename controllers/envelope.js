@@ -11,10 +11,7 @@ module.exports.show_envelopes = function(req, res, next) {
   console.log('API REQUEST: show_envelopes - body', req.body);
 
   var envelopeProvider = EnvelopeData.baseEnvelopeProvider();
-  /*var envelopes = [{ description: 'test letter 1'}, 
-				   { description: 'test letter 2'}];
-  console.log("Saving the envelopes "+ JSON.stringify(envelopes));
-  envelopeProvider.save(envelopes);*/
+
   envelopeProvider.findAll(function(err,docs){
   	if ( err ) console.log("Unable to retrieve documents");
   	res.json(docs);
@@ -38,8 +35,8 @@ module.exports.save_envelopes = function(req, res, next) {
 };
 
 module.exports.send = function(req, res, next) {
-	console.log('API REQUEST: sent - params', req.query);
-	var id = req.query.id;
+	console.log('API REQUEST: sent - params', req.body);
+	var id = req.body['id']
 
 	var functions = new EnvelopeFunctions();
 	functions.sent( id, function(err, docs, lastErrorObject){
@@ -50,11 +47,11 @@ module.exports.send = function(req, res, next) {
 			res.json({message: "Envelope with id "+id+" successully marked as sent"});
 		}
 	});
-}
+};
 
 module.exports.receive = function(req, res, next) {
-	console.log('API REQUEST: receive - params', req.query);
-	var id = req.query.id;
+	console.log('API REQUEST: receive - params', req.body);
+	var id = req.body['id'];
 
 	var functions = new EnvelopeFunctions();
 	functions.receive( id, function(err, docs, lastErrorObject){
@@ -65,7 +62,20 @@ module.exports.receive = function(req, res, next) {
 			res.json({message: "Envelope with id "+id+" successully marked as received"});
 		}
 	});
-}
+};
 
+module.exports.remove = function(req, res, next) {
+	console.log('API REQUEST: remove - params', req.body);
+	var id = req.body['id'];
 
-
+  	var envelopeProvider = EnvelopeData.baseEnvelopeProvider();
+  	console.log("Removing the envelope with id "+ id);
+  	envelopeProvider.remove(id, function(err,docs){
+  	if ( err ){
+  		console.error("Error when removing id: "+id+" of "+err.Message);
+  		res.json({message: err.Message});
+  	}else{
+  		res.json({message: "Documents successfully removed."});
+  	}
+  });
+};

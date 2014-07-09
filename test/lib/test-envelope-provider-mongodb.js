@@ -55,10 +55,33 @@ module.exports = {
 
 		// Act, Assert
 		test.expect(3);
-		provider.findById("532646752b5e1572edae2b1d",function(err,docs){
-			test.equals(docs._id, "532646752b5e1572edae2b1d");
+		provider.findById("532646752b5e1572edae2b1e",function(err,docs){
+			test.equals(docs._id, "532646752b5e1572edae2b1e");
 			test.equals(docs.id, 3);
 			test.equals(docs.description, "test letter 1");
+			test.done();
+		});
+		/*var actualEnvelopes = this.provider.findById(testId);
+
+		// Assert
+		test.equals(actualEnvelopes.length, 1);
+		test.equals(actualEnvelopes[0].id, testId);*/
+	},
+	testFindByUserId : function(test)
+	{
+		// Arrange
+		/*var testId = "000000000000000000000001";
+		var envelopes_to_return = [{ id : testId, description: 'test letter 1'}];
+
+		when(this.provider.envelope_collection).findOne().thenReturn(mockCursor);
+		when(mockCursor).toArray().thenReturn(envelopes_to_return);*/
+
+		// Act, Assert
+		test.expect(3);
+		provider.findByUserId("user_id",function(err,docs){
+			test.equals(docs[0].user_id, "user_id");
+			test.equals(docs[0].id, 2);
+			test.equals(docs[0].description, "test letter 2");
 			test.done();
 		});
 		/*var actualEnvelopes = this.provider.findById(testId);
